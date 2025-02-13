@@ -9,9 +9,12 @@ services:
       - OPENAI_API_BASE_URL=http://litellm:4000/v1
     volumes:
       - open-webui:/app/backend/data
+    depends_on:
+      - litellm
 
   litellm:
     image: ghcr.io/berriai/litellm:main-stable
+    build: litellm
     restart: unless-stopped
     command:
       - "--config=/litellm_config.yaml"
