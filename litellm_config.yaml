@@ -5,6 +5,9 @@ model_list:
   - model_name: claude-3-5-sonnet
     litellm_params:
       model: anthropic/claude-3-5-sonnet-20240620
+  # - modal_name: claude-3-7-sonnet
+  #   litellm_params:
+  #     modal: anthropic/claude-3-7-sonnet-20250219
   - model_name: DeepSeek V3
     litellm_params:
       model: deepseek/deepseek-chat
