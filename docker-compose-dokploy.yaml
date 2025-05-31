@@ -1,3 +1,5 @@
+version: "3"
+
 services:
   webui:
     image: ghcr.io/open-webui/open-webui:main
@@ -8,18 +10,16 @@ services:
       - OPENAI_API_KEY=dummy
       - OPENAI_API_BASE_URL=http://litellm:4000/v1
     volumes:
-      - "../open-webui:/app/backend/data"
+      - open-webui:/app/backend/data
     depends_on:
       - litellm
-    network:
-      - dokploy_network
+    networks:
+      - dokploy-network
 
   litellm:
     image: ghcr.io/berriai/litellm:main-stable
     build: litellm
     restart: unless-stopped
-    network:
-      - dokploy_network
     command:
       - "--config=/litellm_config.yaml"
       - "--detailed_debug"
@@ -33,10 +33,13 @@ services:
       - PERPLEXITYAI_API_KEY
       - DEEPSEEK_API_KEY
     volumes:
-      - ".././litellm_config.yaml:/litellm_config.yaml"
+      - ./litellm_config.yaml:/litellm_config.yaml
+    networks:
+      - dokploy-network
 
-volumes: "../open-webui:/var/lib/open-webui"
+volumes:
+  open-webui:
 
-network:
-  dokploy_network:
+networks:
+  dokploy-network:
     external: true
