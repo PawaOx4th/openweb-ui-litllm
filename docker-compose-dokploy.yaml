@@ -1,0 +1,42 @@
+services:
+  webui:
+    image: ghcr.io/open-webui/open-webui:main
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:33371:8080"
+    environment:
+      - OPENAI_API_KEY=dummy
+      - OPENAI_API_BASE_URL=http://litellm:4000/v1
+    volumes:
+      - open-webui:/app/backend/data
+    depends_on:
+      - litellm
+    network:
+      - dokploy_network
+
+  litellm:
+    image: ghcr.io/berriai/litellm:main-stable
+    build: litellm
+    restart: unless-stopped
+    network:
+      - dokploy_network
+    command:
+      - "--config=/litellm_config.yaml"
+      - "--detailed_debug"
+    ports:
+      - "127.0.0.1:33372:4000"
+    environment:
+      - LITELLM_MASTER_KEY=dummy
+      - OPENAI_API_KEY
+      - GEMINI_API_KEY
+      - ANTHROPIC_API_KEY
+      - PERPLEXITYAI_API_KEY
+      - DEEPSEEK_API_KEY
+    volumes:
+      - ./litellm_config.yaml:/litellm_config.yaml
+volumes:
+  open-webui:
+
+network:
+  dokploy_network:
+    external: true
