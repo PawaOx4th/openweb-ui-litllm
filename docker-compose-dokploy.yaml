@@ -8,7 +8,7 @@ services:
       - OPENAI_API_KEY=dummy
       - OPENAI_API_BASE_URL=http://litellm:4000/v1
     volumes:
-      - open-webui:/app/backend/data
+      - "../open-webui:/app/backend/data"
     depends_on:
       - litellm
     network:
@@ -33,9 +33,9 @@ services:
       - PERPLEXITYAI_API_KEY
       - DEEPSEEK_API_KEY
     volumes:
-      - ./litellm_config.yaml:/litellm_config.yaml
-volumes:
-  open-webui:
+      - ".././litellm_config.yaml:/litellm_config.yaml"
+
+volumes: "../open-webui:/var/lib/open-webui"
 
 network:
   dokploy_network:
