@@ -13,7 +13,7 @@ services:
       - litellm
 
   litellm:
-    image: ghcr.io/berriai/litellm:main-latest
+    image: ghcr.io/berriai/litellm:main-stable
     build: litellm
     restart: unless-stopped
     command:
